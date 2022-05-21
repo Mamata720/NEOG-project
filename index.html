@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="style.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>banana speak</title>
+</head>
+
+<body>
+    <nav><h1> talk bananaaaa</h1></nav>
+    <textarea id="txt-input"
+        placeholder="put your sentence in English here and we will convert it to banana"></textarea>
+    <button id="btn-translate">Translate</button>
+
+    <div class="out_put"> Output will come here 👇</div>
+    <div id="output"></div>
+    <footer>
+        <p>about<br>
+            Are you a fan of minions? Did you know that the gibberish they say is an actual<br> language. Use the translator to convert your text from English to Minion speak or<br> Banana language.
+            </p>
+    </footer>
+</body>
+
+
+<script>
+    var btnTranslate = document.querySelector("#btn-translate");
+var txtInput = document.querySelector("#txt-input");
+var outputDiv = document.querySelector("#output");
+
+
+var serverURL = "https://api.funtranslations.com/translate/minion.json"
+
+
+function getTranslationURL(input) {
+    return serverURL + "?" + "text=" + input
+}
+
+function errorHandler(error) {
+    console.log("error occured", error);
+    alert("something wrong with server! try again after some time")
+}
+
+
+function clickHandler() {
+    var inputText = txtInput.value; // taking input
+
+    // calling server for processing
+    fetch(getTranslationURL(inputText))
+        .then(response => response.json())
+        .then(json => {
+            var translatedText = json.contents.translated;
+            outputDiv.innerText = translatedText; // output
+           })
+        .catch(errorHandler)
+};
+
+btnTranslate.addEventListener("click", clickHandler)
+</script>
+
+</html>      
